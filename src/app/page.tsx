@@ -1,6 +1,31 @@
 import Image from "next/image";
+import { GetHelloWorldDocument, GetHelloWorldQuery } from "@/lib/gql/generated";
+import { getClient } from "@/lib/gql/client";
 
-export default function Home() {
+// export default function Home() {
+export default async function Home() {
+  // for server side components
+  const { data, loading, error } = await getClient().query<GetHelloWorldQuery>({
+    query: GetHelloWorldDocument,
+  });
+
+  // for client side components
+  // const { data, loading, error } = useGetHelloWorldQuery();
+
+  if (loading) {
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      loading
+    </div>;
+  }
+
+  if (error) {
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      found error {error.message}
+    </div>;
+  }
+
+  console.log(data, "fetched data");
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -14,7 +39,7 @@ export default function Home() {
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
-            Get started by editing{" "}
+            Get started by editing "{data.hello}"
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
               src/app/page.tsx
             </code>
