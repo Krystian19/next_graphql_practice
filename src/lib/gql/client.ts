@@ -7,10 +7,10 @@ export const { getClient } = registerApolloClient(() => {
     link: new HttpLink({
       uri: "http://localhost:3000/graphql",
     }),
-    defaultOptions: {
-      query: {
-        fetchPolicy: "network-only",
-      },
-    },
+    // defaultOptions: {
+    //   query: {
+    //     fetchPolicy: "network-only",
+    //   },
+    // },
   });
 });
